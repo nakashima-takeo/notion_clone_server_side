@@ -1,11 +1,11 @@
+
+# 開発環境の立ち上げ
 ```
 npm install
 npm run dev
 ```
 
-```
-fly.ioの設定
+# 本番環境にデプロイ
 
-npm run deploy
-
-```
+mainブランチにpushすると自動でデプロイされます。  
+または、flyの設定をしたうえで、 fly launch でデプロイできます。
