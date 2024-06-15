@@ -1,8 +1,9 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import User from "../models/user.js";
 import { body } from "express-validator";
 import validation from "../handlers/validation.js";
-import userContoroller from "../controllers/user.js";
+import { register, login } from "../controllers/user.js";
+import { verifyToken } from "../handlers/tokenHandler.js";
 
 const router = Router();
 
@@ -35,7 +36,22 @@ router.post(
     });
   }),
   validation,
-  userContoroller,
+  register,
 );
+
+// ログインAPI
+router.post(
+  "/login",
+  // バリデーション
+  body("name").isString().withMessage("ユーザー名を入力してください"),
+  body("password").isString().withMessage("パスワードを入力してください"),
+  validation,
+  login,
+);
+
+// JWT認証API
+router.post("/verify-token", verifyToken, (req: Request, res: Response) => {
+  return res.status(200).json({ user: req.user });
+});
 
 export default router;
